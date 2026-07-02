@@ -1,4 +1,4 @@
 *.class
 main_app
 *.out
-
+*.o
