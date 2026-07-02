@@ -1,1 +1,4 @@
 *.class
+main_app
+*.out
+
