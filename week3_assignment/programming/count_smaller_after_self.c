@@ -6,17 +6,16 @@ typedef struct
     int index;
 } Node;
 
-int result[100000];
-Node temp[100000];
+int answer[100000];
 
-void merge(Node arr[], int left, int mid, int right)
+void merge(Node arr[], int L, int mid, int R, Node temp[])
 {
-    int i = left;
+    int i = L;
     int j = mid + 1;
-    int k = left;
+    int k = L;
     int rightCount = 0;
 
-    while (i <= mid && j <= right)
+    while (i <= mid && j <= R)
     {
         if (arr[j].value < arr[i].value)
         {
@@ -25,62 +24,54 @@ void merge(Node arr[], int left, int mid, int right)
         }
         else
         {
-            result[arr[i].index] += rightCount;
+            answer[arr[i].index] += rightCount;
             temp[k++] = arr[i++];
         }
     }
 
     while (i <= mid)
     {
-        result[arr[i].index] += rightCount;
+        answer[arr[i].index] += rightCount;
         temp[k++] = arr[i++];
     }
 
-    while (j <= right)
-    {
+    while (j <= R)
         temp[k++] = arr[j++];
-    }
 
-    for (i = left; i <= right; i++)
-    {
+    for (i = L; i <= R; i++)
         arr[i] = temp[i];
-    }
 }
 
-void mergeSort(Node arr[], int left, int right)
+void mergeSort(Node arr[], int L, int R, Node temp[])
 {
-    if (left >= right)
+    if (L >= R)
         return;
 
-    int mid = (left + right) / 2;
+    int mid = L + (R - L) / 2;
 
-    mergeSort(arr, left, mid);
-    mergeSort(arr, mid + 1, right);
-
-    merge(arr, left, mid, right);
+    mergeSort(arr, L, mid, temp);
+    mergeSort(arr, mid + 1, R, temp);
+    merge(arr, L, mid, R, temp);
 }
 
 int main()
 {
-    int nums[] = {5, 2, 6, 1};
-    int n = sizeof(nums) / sizeof(nums[0]);
+    int n;
+    scanf("%d", &n);
 
-    Node arr[100000];
+    Node arr[n], temp[n];
 
     for (int i = 0; i < n; i++)
     {
-        arr[i].value = nums[i];
+        scanf("%d", &arr[i].value);
         arr[i].index = i;
-        result[i] = 0;
+        answer[i] = 0;
     }
 
-    mergeSort(arr, 0, n - 1);
+    mergeSort(arr, 0, n - 1, temp);
 
-    printf("Output: ");
     for (int i = 0; i < n; i++)
-    {
-        printf("%d ", result[i]);
-    }
+        printf("%d ", answer[i]);
 
     printf("\n");
 

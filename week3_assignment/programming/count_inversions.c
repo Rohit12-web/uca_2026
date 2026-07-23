@@ -2,73 +2,60 @@
 
 long long count = 0;
 
-void merge(int arr[], int left, int mid, int right)
+void merge(int arr[], int L, int mid, int R, int temp[])
 {
-    int temp[100000];
-    int i, j, k;
+    int i = L;
+    int j = mid + 1;
+    int k = L;
 
-    // Count inversions
-    i = left;
-    j = mid + 1;
-
-    while (i <= mid && j <= right)
+    while (i <= mid && j <= R)
     {
         if (arr[i] <= arr[j])
         {
-            i++;
-        }
-        else
-        {
-            count += (mid - i + 1);
-            j++;
-        }
-    }
-
-    // Merge the two sorted halves
-    i = left;
-    j = mid + 1;
-    k = left;
-
-    while (i <= mid && j <= right)
-    {
-        if (arr[i] <= arr[j])
             temp[k++] = arr[i++];
+        }
         else
+        {
             temp[k++] = arr[j++];
+            count += (mid - i + 1);
+        }
     }
 
     while (i <= mid)
         temp[k++] = arr[i++];
 
-    while (j <= right)
+    while (j <= R)
         temp[k++] = arr[j++];
 
-    // Copy back to original array
-    for (i = left; i <= right; i++)
+    for (i = L; i <= R; i++)
         arr[i] = temp[i];
 }
 
-void mergeSort(int arr[], int left, int right)
+void mergeSort(int arr[], int L, int R, int temp[])
 {
-    if (left >= right)
+    if (L >= R)
         return;
 
-    int mid = (left + right) / 2;
+    int mid = L + (R - L) / 2;
 
-    mergeSort(arr, left, mid);
-    mergeSort(arr, mid + 1, right);
-
-    merge(arr, left, mid, right);
+    mergeSort(arr, L, mid, temp);
+    mergeSort(arr, mid + 1, R, temp);
+    merge(arr, L, mid, R, temp);
 }
 
 int main()
 {
-    int arr[] = {1, 2, 4, 1, 3, 5};
-    int n = sizeof(arr) / sizeof(arr[0]);
+    int n;
+    scanf("%d", &n);
 
-    mergeSort(arr, 0, n - 1);
+    int arr[n], temp[n];
 
-    printf("Output: %lld\n", count);
+    for (int i = 0; i < n; i++)
+        scanf("%d", &arr[i]);
+
+    mergeSort(arr, 0, n - 1, temp);
+
+    printf("Output : %lld\n", count);
 
     return 0;
 }

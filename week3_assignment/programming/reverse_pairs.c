@@ -2,28 +2,23 @@
 
 long long count = 0;
 
-void merge(int arr[], int left, int mid, int right)
+void merge(int arr[], int L, int mid, int R, int temp[])
 {
-    int temp[100000];
-    int i, j, k;
+    int j = mid + 1;
 
-    // Count significant reverse pairs
-    j = mid + 1;
-    for (i = left; i <= mid; i++)
+    for (int i = L; i <= mid; i++)
     {
-        while (j <= right && (long long)arr[i] > 2LL * arr[j])
-        {
+        while (j <= R && (long long)arr[i] > 2LL * arr[j])
             j++;
-        }
+
         count += (j - (mid + 1));
     }
 
-    // Merge the two sorted halves
-    i = left;
+    int i = L;
     j = mid + 1;
-    k = left;
+    int k = L;
 
-    while (i <= mid && j <= right)
+    while (i <= mid && j <= R)
     {
         if (arr[i] <= arr[j])
             temp[k++] = arr[i++];
@@ -34,35 +29,38 @@ void merge(int arr[], int left, int mid, int right)
     while (i <= mid)
         temp[k++] = arr[i++];
 
-    while (j <= right)
+    while (j <= R)
         temp[k++] = arr[j++];
 
-    // Copy back to original array
-    for (i = left; i <= right; i++)
+    for (i = L; i <= R; i++)
         arr[i] = temp[i];
 }
 
-void mergeSort(int arr[], int left, int right)
+void mergeSort(int arr[], int L, int R, int temp[])
 {
-    if (left >= right)
+    if (L >= R)
         return;
 
-    int mid = (left + right) / 2;
+    int mid = L + (R - L) / 2;
 
-    mergeSort(arr, left, mid);
-    mergeSort(arr, mid + 1, right);
-
-    merge(arr, left, mid, right);
+    mergeSort(arr, L, mid, temp);
+    mergeSort(arr, mid + 1, R, temp);
+    merge(arr, L, mid, R, temp);
 }
 
 int main()
 {
-    int arr[] = {2, 4, 3, 5, 1};
-    int n = sizeof(arr) / sizeof(arr[0]);
+    int n;
+    scanf("%d", &n);
 
-    mergeSort(arr, 0, n - 1);
+    int arr[n], temp[n];
 
-    printf("Output: %lld\n", count);
+    for (int i = 0; i < n; i++)
+        scanf("%d", &arr[i]);
+
+    mergeSort(arr, 0, n - 1, temp);
+
+    printf("Output : %lld\n", count);
 
     return 0;
 }
