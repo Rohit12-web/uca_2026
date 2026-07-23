@@ -11,17 +11,22 @@ worker.onmessage = function (event) {
         return;
     }
 
-    usersDiv.innerHTML = "";
+    // Wait 3 seconds before displaying the users
+    setTimeout(function () {
 
-    event.data.forEach(function (user) {
+        usersDiv.innerHTML = "";
 
-        const p = document.createElement("p");
+        event.data.forEach(function (user) {
 
-        p.textContent = user.name + " - Active";
+            const p = document.createElement("p");
 
-        usersDiv.appendChild(p);
+            p.textContent = user.name + " - Active";
 
-    });
+            usersDiv.appendChild(p);
+
+        });
+
+    }, 3000);
 
 };
 
