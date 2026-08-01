@@ -1,4 +1,17 @@
+# Java
 *.class
-main_app
-*.out
+
+# C/C++
 *.o
+*.out
+a.out
+
+# Executables
+main_app
+
+# Python
+__pycache__/
+*.pyc
+
+# VS Code
+.vscode/
