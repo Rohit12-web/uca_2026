@@ -7,9 +7,13 @@
  *  Legal ops: ! ~ & ^ | + << >>
  *  Max ops: 10
  *  Rating: 2
+ *  return ((!!x) | (x >> 31));
  */
 int sign(int x) {
-  return ((!!x) | (x >> 31));
+  int negative = x >> 31;
+  int positive = !!x;
+
+  return negative | positive;
 }
 
 int main() {

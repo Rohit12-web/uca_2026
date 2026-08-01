@@ -8,9 +8,14 @@
  *   Legal ops: ! ~ & ^ | + << >>
  *   Max ops: 15
  *   Rating: 2
+ *   return !((x >> (n + ~0)) ^ (x >> 31));
  */
 int fitsBits(int x, int n) {
-  return !((x >> (n + ~0)) ^ (x >> 31));
+    int shift = n + ~0;          // n - 1
+    int sign = x >> 31;          // Extract sign bits
+    int shifted = x >> shift;    // Remove lower (n-1) bits
+
+    return !(shifted ^ sign);
 }
 
 int main() {

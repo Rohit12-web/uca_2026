@@ -6,9 +6,14 @@
  *   Legal ops: ~ & ^ | + << >>
  *   Max ops: 12
  *   Rating: 4 
+ *   return ((x | (~x + 1)) >> 31) + 1;
  */
 int bang(int x) {
-  return ((x | (~x + 1)) >> 31) + 1;
+    int negative = ~x + 1;
+    int combined = x | negative;
+    int sign = combined >> 31;
+
+    return sign + 1;
 }
 
 int main() {

@@ -9,9 +9,12 @@
  *   Rating: 4
  */
 int isPower2(int x) {
-    return !!x & !(x & (x + ~0)) & !(x >> 31);
-}
+    int nonZero = !!x;           // 1 if x != 0
+    int positive = !(x >> 31);   // 1 if x is not negative
+    int oneBit = !(x & (x + ~0)); // 1 if x has exactly one set bit
 
+    return nonZero & positive & oneBit;
+}
 int main() {
     int x;
     printf("Enter an integer (x): ");

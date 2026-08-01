@@ -7,9 +7,13 @@
  *   Legal ops: ! ~ & ^ | + << >>
  *   Max ops: 6
  *   Rating: 2
+ *   return (x >> (n << 3)) & 0xFF;
  */
 int getByte(int x, int n) {
-  return (x >> (n << 3)) & 0xFF;
+    int shift = n << 3;
+    int shifted = x >> shift;
+
+    return shifted & 0xFF;
 }
 
 int main() {
